@@ -99,11 +99,12 @@ Working in about five minutes on any machine with Docker.
 ```bash
 git clone https://github.com/synapse-ai-gateway/synapse-ai-gateway.git
 cd synapse-ai-gateway
-cp .env.example .env
 docker compose up -d
 ```
 
-That brings up three containers: `synapse-postgres`, `synapse-backend` (port 8080), and `synapse-frontend` (port 5173).
+That brings up three containers: `synapse-postgres`, `synapse-backend` (port 8080), and `synapse-frontend` (port 5173). Every setting has a working default, so no configuration is needed for a laptop trial.
+
+> **Before exposing the stack beyond localhost:** copy `.env.example` to `.env` and set real values for `JWT_SECRET`, `ADMIN_PASSWORD`, and `POSTGRES_PASSWORD`. The defaults are clearly-marked dev values — anyone who knows them can forge admin tokens. See the [production checklist](#production-checklist).
 
 Wait ~15 seconds, then verify:
 
