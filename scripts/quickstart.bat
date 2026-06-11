@@ -102,7 +102,7 @@ if not defined JWT_VAL set "JWT_VAL=%DEFAULT_JWT%"
 echo.
 echo   ADMIN_PASSWORD
 echo   Initial admin password ^(forced change on first login^)
-set "ADMIN_DEFAULT=ChangeMe_At_First_Login_123!"
+set "ADMIN_DEFAULT=synapse"
 set "ADMIN_VAL="
 set /p "ADMIN_VAL=    [%ADMIN_DEFAULT%]: "
 if not defined ADMIN_VAL set "ADMIN_VAL=%ADMIN_DEFAULT%"

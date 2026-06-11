@@ -93,7 +93,7 @@ prompt_var() {
 if $FIRST_RUN; then
     info "Set the minimum-required values (press ENTER to accept the default in brackets):"
     prompt_var JWT_SECRET        "JWT signing secret — anyone with this can forge admin tokens" "$(gen_secret)"
-    prompt_var ADMIN_PASSWORD    "Initial admin password (forced change on first login)"        "ChangeMe_At_First_Login_123!"
+    prompt_var ADMIN_PASSWORD    "Initial admin password (forced change on first login)"        "synapse"
     prompt_var POSTGRES_PASSWORD "Postgres password"                                            "postgres"
     echo
 fi
