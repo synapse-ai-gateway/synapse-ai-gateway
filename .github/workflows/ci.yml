@@ -135,7 +135,12 @@ jobs:
           output: 'trivy-image.sarif'
 
       - name: Upload Trivy results to GitHub Security
-        if: always()             # publish even if a previous step failed
+        # Run only when the Trivy step actually produced a SARIF file. The
+        # previous `if: always()` caused a spurious 'Path does not exist'
+        # failure whenever the scan was skipped (e.g. Buildx setup flaked
+        # before the scan could run). hashFiles() returns empty if the
+        # file doesn't exist, so this is a robust guard.
+        if: hashFiles('trivy-image.sarif') != ''
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: 'trivy-image.sarif'
