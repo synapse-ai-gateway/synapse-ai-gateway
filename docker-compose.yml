@@ -10,7 +10,7 @@ name: synapse-ai-gateway
 #   frontend   ➜ React admin console (nginx)  http://localhost:5173
 #
 # Run:           docker compose up --build
-# First-login:   admin / ChangeMe_At_First_Login_123!  (forced to change on login)
+# First-login:   admin / synapse  (forced to change on login)
 #
 # This compose file is intentionally dev-shaped. For production:
 #   - replace the inline secrets with values from a secrets manager
@@ -46,7 +46,7 @@ services:
         condition: service_healthy
     environment:
       DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_DB:-synapse_ai_gateway}
-      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-ChangeMe_At_First_Login_123!}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-synapse}
       # Default JWT_SECRET is a clearly-marked dev value — anyone who knows it
       # can forge admin tokens. Override via .env for anything beyond a laptop.
       JWT_SECRET: ${JWT_SECRET:-dev-only-jwt-secret-replace-before-deploying}

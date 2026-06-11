@@ -217,7 +217,7 @@ async def _create_users(db, admin: User) -> list[User]:
             username=u["username"],
             email=u["email"],
             full_name=u["full_name"],
-            hashed_password=hash_password("ChangeMe_At_First_Login_123!"),
+            hashed_password=hash_password("synapse"),
             role=u["role"],
             enabled=True,
             force_password_change=False,
@@ -474,7 +474,7 @@ async def main() -> None:
         print(f"  user_activity_log    : {activity_count}")
         print("=" * 60)
         print()
-        print("Extra users (password for all): ChangeMe_At_First_Login_123!")
+        print("Extra users (password for all): synapse")
         for u in EXTRA_USERS:
             print(f"  {u['username']:20s}  role={u['role']}")
 

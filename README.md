@@ -131,7 +131,7 @@ Both support `--reset` (wipe the postgres volume) and `--reconfigure` (re-prompt
 Teams are **not** auto-seeded — their `api_key` is a credential, and printing it to `docker logs` would leak it permanently. Instead:
 
 1. Open the admin console: <http://localhost:5173>
-2. Log in: `admin` / `ChangeMe_At_First_Login_123!` (you'll be forced to change the password)
+2. Log in: `admin` / `synapse` (you'll be forced to change the password immediately)
 3. **Teams → Add Team**. Pick a name, a model (e.g. `llama3.2:latest`), a rate limit, an optional system prompt
 4. The `api_key` is shown **once** in the create dialog — copy it now
 
@@ -189,9 +189,8 @@ docker compose exec backend python seed_demo.py --wipe
 ```
 
 The two extra users (`sarah.analyst`, `dev.viewer`) are seeded with password
-`ChangeMe_At_First_Login_123!` and the force-change flag set, so logging in as them
-will prompt for a new password — useful if you want to screenshot the
-password-change flow itself.
+`synapse` and the force-change flag set, so logging in as them will prompt
+for a new password — useful if you want to screenshot the password-change flow itself.
 
 ### Mock data mode (no backend at all)
 
@@ -263,7 +262,7 @@ Documented values below come from `backend/.env.example`. Anything not set falls
 
 | Variable | Default | Required | Description |
 |---|---|---|---|
-| `ADMIN_PASSWORD` | `ChangeMe_At_First_Login_123!` | **Yes** before first run | Initial password for the seeded `admin` superadmin. Forced change on first login. |
+| `ADMIN_PASSWORD` | `synapse` | **Yes** before first run | Initial password for the seeded `admin` superadmin. Forced change on first login — only needs to be memorable enough to reach the change-password screen. |
 | `JWT_SECRET` | `change-this-to-a-32-char-random-string-now` | **Yes** | JWT signing secret. Generate with `python -c "import secrets; print(secrets.token_hex(32))"`. |
 | `JWT_ALGORITHM` | `HS256` | No | Signing algorithm. |
 | `ACCESS_TOKEN_EXPIRE_HOURS` | `8` | No | Admin session token lifetime. |

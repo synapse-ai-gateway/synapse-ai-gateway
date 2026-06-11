@@ -383,7 +383,7 @@ export const mockApi = {
   login: async (username: string, password: string): Promise<LoginResponse> => {
     await delay();
     const user = usersState.find((u) => u.username === username);
-    if (!user || (password !== 'password' && password !== 'ChangeMe_At_First_Login_123!')) {
+    if (!user || (password !== 'password' && password !== 'synapse')) {
       throw { status: 401, message: 'Invalid username or password' };
     }
     if (!user.enabled) {

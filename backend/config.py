@@ -76,7 +76,7 @@ class Settings:
     HTTP_MAX_CONNECTIONS: int = _get_int("HTTP_MAX_CONNECTIONS", 20)
 
     # ── Authentication / JWT ─────────────────────────────────────────────────
-    ADMIN_PASSWORD: str = _get_str("ADMIN_PASSWORD", "ChangeMe_At_First_Login_123!")
+    ADMIN_PASSWORD: str = _get_str("ADMIN_PASSWORD", "synapse")
     JWT_SECRET: str = _get_str("JWT_SECRET", "change-this-to-a-32-char-random-string-now")
     JWT_ALGORITHM: str = _get_str("JWT_ALGORITHM", "HS256")
     ACCESS_TOKEN_EXPIRE_HOURS: int = _get_int("ACCESS_TOKEN_EXPIRE_HOURS", 8)
