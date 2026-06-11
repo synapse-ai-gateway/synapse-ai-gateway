@@ -1,0 +1,32 @@
+codecov:
+  require_ci_to_pass: true
+
+coverage:
+  precision: 1
+  round: down
+  range: "70...100"
+
+  status:
+    # Project-wide: total coverage must stay at >= 70%.
+    project:
+      default:
+        target: 70%
+        threshold: 1%
+        if_ci_failed: error
+    # Per-PR diff coverage: new/changed code must also be >= 70%.
+    patch:
+      default:
+        target: 70%
+        threshold: 1%
+
+comment:
+  layout: "reach, diff, flags, files"
+  behavior: default
+  require_changes: false
+
+ignore:
+  - "backend/backend_ve/**"
+  - "backend/tests/**"
+  - "backend/alembic/versions/**"
+  - "backend/seed.py"
+  - "frontend/**"

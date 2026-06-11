@@ -1,0 +1,11 @@
+<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+  <!-- Synapse AI Gateway favicon — V7 Branching, scaled to 32px viewBox.
+       Slate satellite nodes + branches with an indigo central node. -->
+  <line x1="16" y1="16" x2="6" y2="6" stroke="#0F172A" stroke-width="2" stroke-linecap="round"/>
+  <line x1="16" y1="16" x2="26" y2="6" stroke="#0F172A" stroke-width="2" stroke-linecap="round"/>
+  <line x1="16" y1="16" x2="16" y2="28" stroke="#0F172A" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="6" cy="6" r="2" fill="#0F172A"/>
+  <circle cx="26" cy="6" r="2" fill="#0F172A"/>
+  <circle cx="16" cy="28" r="2" fill="#0F172A"/>
+  <circle cx="16" cy="16" r="3.5" fill="#4F46E5"/>
+</svg>

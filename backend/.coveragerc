@@ -1,0 +1,14 @@
+[run]
+source = .
+omit =
+    backend_ve/*
+    tests/*
+    alembic/*
+    seed.py
+
+[report]
+show_missing = True
+exclude_lines =
+    pragma: no cover
+    if TYPE_CHECKING:
+    raise NotImplementedError

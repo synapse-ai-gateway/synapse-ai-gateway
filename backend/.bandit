@@ -1,0 +1,10 @@
+# Bandit configuration (YAML). Apply with:  bandit -c .bandit -r .
+# https://bandit.readthedocs.io/en/latest/config.html
+
+# Directories excluded from scanning. Tests are excluded because pytest's
+# heavy use of `assert` triggers B101 across the entire test suite; alembic
+# version files are auto-generated.
+exclude_dirs:
+  - tests
+  - backend_ve
+  - alembic/versions

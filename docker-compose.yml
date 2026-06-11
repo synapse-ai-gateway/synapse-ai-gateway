@@ -1,0 +1,83 @@
+# Explicit project name — compose otherwise derives this from the directory
+# name, which prefixes networks/volumes (e.g. <dirname>_default). Setting it
+# here decouples the on-disk folder from the deployed resource names.
+name: synapse-ai-gateway
+
+# Quickstart compose for the Synapse AI Gateway.
+#
+#   postgres   ➜ governance DB (audit log, teams, DLP patterns, settings)
+#   backend    ➜ FastAPI gateway              http://localhost:8080
+#   frontend   ➜ React admin console (nginx)  http://localhost:5173
+#
+# Run:           docker compose up --build
+# First-login:   admin / ChangeMe_At_First_Login_123!  (forced to change on login)
+#
+# This compose file is intentionally dev-shaped. For production:
+#   - replace the inline secrets with values from a secrets manager
+#   - put a TLS-terminating reverse proxy in front of both services
+#   - point at a managed Postgres instead of the bundled container
+#   - rebuild the frontend with --build-arg VITE_GATEWAY_URL=<public backend URL>
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: synapse-postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-synapse_ai_gateway}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: synapse-ai-gateway:dev
+    container_name: synapse-backend
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_DB:-synapse_ai_gateway}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-ChangeMe_At_First_Login_123!}
+      # Default JWT_SECRET is a clearly-marked dev value — anyone who knows it
+      # can forge admin tokens. Override via .env for anything beyond a laptop.
+      JWT_SECRET: ${JWT_SECRET:-dev-only-jwt-secret-replace-before-deploying}
+      CORS_ORIGIN: ${CORS_ORIGIN:-http://localhost:5173}
+      # Reaches a host-installed Ollama from inside the container. Works on
+      # Docker Desktop (Mac/Windows). On Linux, add this to the `backend`
+      # service instead:  extra_hosts: ["host.docker.internal:host-gateway"]
+      VLLM_URL: ${VLLM_URL:-http://host.docker.internal:11434/v1}
+      DEFAULT_MODEL: ${DEFAULT_MODEL:-llama3.2:latest}
+      # CPU inference on the host can be slow; allow generous time for the
+      # cold load + completion. Reduce for production GPU-backed deployments.
+      LLM_REQUEST_TIMEOUT_SEC: ${LLM_REQUEST_TIMEOUT_SEC:-180}
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        # Baked into the SPA bundle at build time.
+        VITE_GATEWAY_URL: ${VITE_GATEWAY_URL:-http://localhost:8080}
+        VITE_USE_MOCK: ${VITE_USE_MOCK:-false}
+    image: synapse-ai-gateway-admin:dev
+    container_name: synapse-frontend
+    depends_on:
+      - backend
+    ports:
+      - "5173:8080"
+    restart: unless-stopped
+
+volumes:
+  postgres-data:

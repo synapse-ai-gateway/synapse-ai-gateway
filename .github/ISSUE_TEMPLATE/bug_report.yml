@@ -1,0 +1,113 @@
+name: Bug report
+description: Something's not working as documented. Open this for reproducible defects.
+title: "[bug] "
+labels: ["bug", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to file a bug report.
+
+        **Please do not use this template for security vulnerabilities.**
+        See [SECURITY.md](../SECURITY.md) for private disclosure.
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: |
+        A clear description of the unexpected behaviour. Include the exact
+        error message or HTTP response body if applicable.
+      placeholder: |
+        Sending a request to /v1/chat/completions with a valid team key
+        returns 502 even though Ollama is reachable from the host.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect to happen?
+      description: A clear description of the expected behaviour.
+      placeholder: |
+        I expected a 200 OK with the model's response, like the README example.
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: How can we reproduce it?
+      description: |
+        Minimal, copy-pasteable steps. If a particular config matters, include
+        the relevant lines from your `.env` (redact any real secrets).
+      placeholder: |
+        1. `git clone …`
+        2. `cp .env.example .env`
+        3. `docker compose up -d`
+        4. Create team via Admin UI with model "llama3.2:latest"
+        5. `curl -X POST … -d '{"messages":[{"role":"user","content":"hi"}]}'`
+        6. Observe 502
+      render: markdown
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Synapse version
+      description: |
+        Tag or commit SHA. From a docker image, check
+        `docker inspect <image> --format '{{ index .Config.Labels "org.opencontainers.image.version" }}'`.
+      placeholder: "v0.1.0  or  main@a1b2c3d"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: deployment
+    attributes:
+      label: Deployment shape
+      options:
+        - docker compose (bundled stack)
+        - docker (image only, external Postgres)
+        - bare-metal / venv (development)
+        - kubernetes
+        - other (describe below)
+    validations:
+      required: true
+
+  - type: input
+    id: backend
+    attributes:
+      label: LLM backend
+      description: Which LLM endpoint were you forwarding to?
+      placeholder: "Ollama 0.6.x / vLLM 0.6.x / OpenAI / Azure / other"
+
+  - type: dropdown
+    id: os
+    attributes:
+      label: Host OS
+      options:
+        - Linux
+        - macOS (Docker Desktop)
+        - Windows (Docker Desktop / WSL2)
+        - other
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant logs
+      description: |
+        `docker compose logs backend --tail=100`, or whatever's relevant.
+        Triple-backtick it so it renders as a code block.
+      render: shell
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Anything else?
+      description: |
+        Screenshots, related issues, things you've already ruled out, links to
+        upstream issues — anything that might help us understand the context.

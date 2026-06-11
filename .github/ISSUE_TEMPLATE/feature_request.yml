@@ -1,0 +1,85 @@
+name: Feature request
+description: Propose a new feature or behaviour change. Discuss before coding.
+title: "[feat] "
+labels: ["enhancement", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for proposing a feature.
+
+        For changes that touch the request path (auth, DLP, routing, audit) we
+        ask that you open an issue *before* writing code, so the design can be
+        agreed before review.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem are you trying to solve?
+      description: |
+        Describe the user / operator pain point. Concrete examples beat
+        abstract framing.
+      placeholder: |
+        Our compliance team needs to forward audit log events to Splunk in
+        near real-time. Today we'd have to write a polling sidecar against
+        the audit_logs table; a built-in webhook would let us configure
+        forwarding through the admin UI.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed
+    attributes:
+      label: Proposed solution
+      description: |
+        How would you like it to work? An API sketch, a UI flow, or a
+        configuration example all help.
+      placeholder: |
+        A new `audit_webhooks` table (URL, secret, event filter) and a
+        background worker that POSTs new audit_logs rows as they're written.
+        Configurable through Settings → Audit forwarding.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: |
+        Workarounds you've tried, off-the-shelf tools that nearly fit, or
+        designs you rejected. Helps reviewers understand the tradeoff space.
+      placeholder: |
+        - Polling sidecar (works but adds an extra deployable component)
+        - Postgres LISTEN/NOTIFY (works but caller has to be on the DB)
+        - Log shipping the container's stdout (loses structure)
+
+  - type: dropdown
+    id: impact-area
+    attributes:
+      label: Primary impact area
+      options:
+        - Request path (auth / DLP / routing / audit)
+        - Admin UI
+        - Admin API
+        - Deployment / packaging
+        - Documentation
+        - Testing / CI
+        - Other
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: Scope acknowledgements
+      options:
+        - label: I've read CONTRIBUTING.md and understand that request-path changes need design agreement before code.
+          required: true
+        - label: I've checked existing open issues and PRs and this isn't already proposed.
+          required: true
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Anything else?
+      description: References to related issues, prior art in other projects, or notes for reviewers.

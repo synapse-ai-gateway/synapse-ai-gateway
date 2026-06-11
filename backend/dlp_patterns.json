@@ -1,0 +1,44 @@
+[
+  {
+    "name": "credit_card",
+    "pattern": "\\b(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|3[47][0-9]{13})\\b",
+    "severity": "Critical",
+    "action": "block"
+  },
+  {
+    "name": "us_ssn",
+    "pattern": "\\b(?!000|666|9\\d{2})\\d{3}-(?!00)\\d{2}-(?!0000)\\d{4}\\b",
+    "severity": "Critical",
+    "action": "block"
+  },
+  {
+    "name": "uk_nino",
+    "pattern": "\\b[A-CEGHJ-PR-TW-Z]{2}\\d{6}[A-D]\\b",
+    "severity": "Critical",
+    "action": "block"
+  },
+  {
+    "name": "iban",
+    "pattern": "\\b[A-Z]{2}\\d{2}[A-Z0-9]{11,30}\\b",
+    "severity": "High",
+    "action": "block"
+  },
+  {
+    "name": "aws_access_key",
+    "pattern": "\\bAKIA[0-9A-Z]{16}\\b",
+    "severity": "High",
+    "action": "block"
+  },
+  {
+    "name": "phone_e164",
+    "pattern": "\\b\\+[1-9]\\d{6,14}\\b",
+    "severity": "Medium",
+    "action": "block"
+  },
+  {
+    "name": "email",
+    "pattern": "\\b[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}\\b",
+    "severity": "Low",
+    "action": "alert"
+  }
+]

@@ -1,0 +1,16 @@
+# Runtime dependencies — pinned for reproducible builds.
+fastapi==0.136.1
+uvicorn[standard]==0.46.0
+httpx==0.28.1
+sqlalchemy[asyncio]==2.0.49
+alembic==1.18.4
+pydantic==2.13.3
+python-jose[cryptography]==3.5.0
+bcrypt==5.0.0
+python-dotenv==1.2.2
+
+# Database drivers
+asyncpg==0.31.0          # PostgreSQL (primary)
+aiosqlite==0.22.1        # SQLite (lightweight/dev)
+aioodbc==0.5.0           # MSSQL (async ODBC)
+pyodbc==5.3.0            # MSSQL (ODBC driver)

@@ -1,0 +1,31 @@
+Synapse AI Gateway
+Copyright 2026 The Synapse AI Gateway Authors
+
+This product is licensed under the Apache License, Version 2.0 (the
+"License"). See the LICENSE file in the project root for the full text.
+
+This product bundles, depends on, or is built with the following third-party
+software, which is licensed under their respective open source licenses:
+
+  - FastAPI                 (MIT)
+  - Uvicorn                 (BSD-3-Clause)
+  - SQLAlchemy              (MIT)
+  - Pydantic                (MIT)
+  - httpx                   (BSD-3-Clause)
+  - python-jose             (MIT)
+  - bcrypt                  (Apache-2.0)
+  - python-dotenv           (BSD-3-Clause)
+  - alembic                 (MIT)
+  - asyncpg                 (Apache-2.0)
+  - aiosqlite               (MIT)
+  - React                   (MIT)
+  - Vite                    (MIT)
+  - TailwindCSS             (MIT)
+  - TanStack Query          (MIT)
+  - React Router            (MIT)
+  - Lucide                  (ISC)
+  - Recharts                (MIT)
+
+Full license texts for each dependency are reproduced in the respective
+package distributions. Inclusion in this NOTICE does not imply endorsement
+of any contributor by the Synapse AI Gateway project.

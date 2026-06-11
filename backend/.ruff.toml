@@ -1,0 +1,16 @@
+line-length = 120
+target-version = "py311"
+extend-exclude = ["backend_ve", "alembic/versions"]
+
+[lint]
+# Default ruleset (pyflakes + pycodestyle errors/warnings) plus isort.
+select = ["E", "F", "W", "I"]
+
+[lint.per-file-ignores]
+# main.py must `load_dotenv()` before importing any module that reads env vars,
+# and configure logging before routers are imported.
+"main.py" = ["E402"]
+# Alembic env script manipulates sys.path before its imports.
+"alembic/env.py" = ["E402"]
+# pytest fixture file sets os.environ BEFORE importing app modules.
+"tests/conftest.py" = ["E402"]

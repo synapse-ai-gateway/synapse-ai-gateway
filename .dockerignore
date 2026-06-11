@@ -1,0 +1,34 @@
+# Python caches and virtual envs
+**/__pycache__
+**/*.py[cod]
+**/*.egg-info
+**/.pytest_cache
+**/.mypy_cache
+**/.ruff_cache
+**/.coverage
+**/htmlcov
+backend/backend_ve
+
+# Tests and dev-only files
+backend/tests
+backend/pytest.ini
+backend/.coveragerc
+backend/.ruff.toml
+backend/.bandit
+backend/requirements-dev.txt
+**/*.log
+
+# Secrets / local config (never ship these into an image)
+**/.env
+**/.env.*
+!**/.env.example
+
+# Frontend (the gateway image is backend-only)
+frontend
+
+# VCS / CI / docs / artifacts
+.git
+.github
+*.zip
+*.md
+deploy
