@@ -1,12 +1,47 @@
+<div align="center">
+
+<img src="docs/og.png" alt="Synapse AI Gateway — governance-first AI gateway for regulated teams. Apache 2.0." width="720" />
+
 # Synapse AI Gateway
 
-**A lightweight, governance-first AI gateway for regulated organisations. Route to local and cloud LLMs with built-in DLP, audit logging, and per-key use-case scoping.**
+**Governance-first AI gateway for regulated organisations.**
+**`docker compose up` · Five minutes to deploy · Apache 2.0.**
+
+[Website](https://synapse-gateway.com) · [Quick start](#quick-start) · [Docs](docs/) · [Changelog](CHANGELOG.md) · [Contributing](CONTRIBUTING.md)
 
 [![CI](https://github.com/synapse-ai-gateway/synapse-ai-gateway/actions/workflows/ci.yml/badge.svg)](https://github.com/synapse-ai-gateway/synapse-ai-gateway/actions/workflows/ci.yml)
-[![Coverage](https://codecov.io/gh/synapse-ai-gateway/synapse-ai-gateway/branch/main/graph/badge.svg)](https://codecov.io/gh/synapse-ai-gateway/synapse-ai-gateway)
 [![Container](https://img.shields.io/badge/ghcr.io-synapse--ai--gateway-blue?logo=docker)](https://github.com/synapse-ai-gateway/synapse-ai-gateway/pkgs/container/synapse-ai-gateway)
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/python-3.11%20%7C%203.12-blue.svg)](pyproject.toml)
+
+</div>
+
+---
+
+## The gap in the middle
+
+Teams in regulated organisations — finance, healthcare, public sector — face the same tension. Pressure to adopt AI quickly, alongside real obligations around data residency, audit trails, and responsible use. The available tooling falls into three camps:
+
+- **Too complex** — LiteLLM, Kong, Azure APIM. Good tools, built for teams that already have DevOps capacity and infrastructure budgets.
+- **Too expensive** — Enterprise AI governance platforms with six-figure contracts.
+- **Too cloud-dependent** — Send your data to a third party to scan it; a non-starter under data residency rules.
+
+Synapse AI Gateway lives between those three. It is the governance layer a small team can deploy in an afternoon, before they earn the right to a larger platform.
+
+The design centre is the API key. Each key is bound at creation to a system prompt, a model allowlist, a team identity, and rate limits. **Applications cannot override that binding.** Use-case approval becomes a technical control instead of a wiki page nobody reads.
+
+---
+
+## Why Synapse?
+
+There are plenty of AI gateways. Synapse exists because *governance-first, self-hosted, and lightweight* is a combination none of the alternatives cover well.
+
+- **Governance is the product, not a plugin.** Per-API-key system prompts, prompt-layer DLP, model allowlists and immutable audit live in the request path, not in optional middleware you have to wire up. They can't be bypassed by a consuming application no matter what it sends.
+- **No data leaves your network.** Self-hosted only. Postgres is your Postgres, the LLM endpoint is whichever address you point it at. Hosted SaaS gateways are non-starters for regulated workloads; this is built for those workloads first.
+- **One command, real machines.** `docker compose up` brings the whole stack — postgres + backend + admin console — in five minutes. Backend is ~195 MB image with ~50 MB idle RSS. Runs on a laptop for development and on a single VM for a small team. No Redis, no Celery, no message broker required to get started.
+- **Hybrid local + cloud routing as a first-class control.** Sensitive teams stay on your on-prem LLM (Ollama, vLLM, anything OpenAI-compatible). Non-sensitive teams may route to a cloud endpoint — but only when the data classification on the *API key* permits it. The application can't override that.
+
+If you need 100+ provider adapters and don't care about deep audit, use [LiteLLM](https://github.com/BerriAI/litellm). If you want polished dashboards and can send data to a SaaS, use a commercial gateway. If you need governance-first behaviour you can audit line-by-line and host yourself, this is for you.
 
 ---
 
@@ -27,19 +62,6 @@ team has a bound system prompt, model allowlist, classification, and rate limit.
 | DLP patterns |   |
 |--------------|---|
 | ![DLP patterns — regex pattern library with per-pattern severity and enable toggle, configurable from the UI](docs/screenshots/05-dlp-patterns.png) | |
-
----
-
-## Why Synapse?
-
-There are plenty of AI gateways. Synapse exists because *governance-first, self-hosted, and lightweight* is a combination none of the alternatives cover well.
-
-- **Governance is the product, not a plugin.** Per-API-key system prompts, prompt-layer DLP, model allowlists and immutable audit live in the request path, not in optional middleware you have to wire up. They can't be bypassed by a consuming application no matter what it sends.
-- **No data leaves your network.** Self-hosted only. Postgres is your Postgres, the LLM endpoint is whichever address you point it at. Hosted SaaS gateways are non-starters for regulated workloads; this is built for those workloads first.
-- **One command, real machines.** `docker compose up` brings the whole stack — postgres + backend + admin console — in five minutes. Backend is ~195 MB image with ~50 MB idle RSS. Runs on a laptop for development and on a single VM for a small team. No Redis, no Celery, no message broker required to get started.
-- **Hybrid local + cloud routing as a first-class control.** Sensitive teams stay on your on-prem LLM (Ollama, vLLM, anything OpenAI-compatible). Non-sensitive teams may route to a cloud endpoint — but only when the data classification on the *API key* permits it. The application can't override that.
-
-If you need 100+ provider adapters and don't care about deep audit, use [LiteLLM](https://github.com/BerriAI/litellm). If you want polished dashboards and can send data to a SaaS, use a commercial gateway. If you need governance-first behaviour you can audit line-by-line and host yourself, this is for you.
 
 ---
 
