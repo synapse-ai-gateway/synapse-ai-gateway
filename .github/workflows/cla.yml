@@ -8,7 +8,10 @@ on:
 
 permissions:
   actions: write
-  contents: read          # allowlist file is read from this repo
+  # write is required: the CLA assistant creates and pushes the signature
+  # file (signatures/cla.json) to the cla-signatures branch. With read-only
+  # contents it fails every run with 'Resource not accessible by integration'.
+  contents: write
   pull-requests: write
   statuses: write
 
