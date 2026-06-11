@@ -174,7 +174,7 @@ async def test_incidents_list_and_export(client, gateway, mock_llm, flush_backgr
     await client.post(
         "/v1/chat/completions",
         headers=auth_header(),
-        json={"messages": [{"role": "user", "content": "id 42101-1234567-1"}]},
+        json={"messages": [{"role": "user", "content": "ssn 123-45-6789"}]},
     )
     await flush_background()
 

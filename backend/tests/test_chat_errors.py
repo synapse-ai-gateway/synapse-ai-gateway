@@ -48,12 +48,12 @@ async def test_invalid_json_from_backend_returns_502(client, gateway, mock_llm, 
 async def test_response_dlp_block_returns_502(client, gateway, mock_llm, flush_background, db):
     await gateway.add_team()
     await gateway.add_default_dlp_patterns()
-    # Backend echoes a national identity number in its response.
+    # Backend echoes a US SSN in its response.
     leaked = {
         "id": "x",
         "object": "chat.completion",
         "model": "test-model",
-        "choices": [{"index": 0, "message": {"role": "assistant", "content": "here: 42101-1234567-1"}}],
+        "choices": [{"index": 0, "message": {"role": "assistant", "content": "here: 123-45-6789"}}],
         "usage": {"total_tokens": 9},
     }
     mock_llm.response = FakeResponse(status_code=200, payload=leaked)

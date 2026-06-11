@@ -30,9 +30,9 @@ async def test_clean_prompt_passes_through(client, configured, mock_llm):
 @pytest.mark.parametrize(
     "content,expected_pattern",
     [
-        ("my id is 42101-1234567-1 please help", "cnic"),          # national identity number
-        ("here is my card 4111111111111111 ok", "credit_card"),    # card PAN
-        ("account number 1234567890 balance", "account_no"),       # account number
+        ("my ssn is 123-45-6789 please help", "us_ssn"),               # US Social Security Number
+        ("here is my card 4111111111111111 ok", "credit_card"),        # card PAN
+        ("config has key AKIAIOSFODNN7EXAMPLE oops", "aws_access_key"),  # leaked AWS access key id
     ],
 )
 async def test_prompt_with_pii_is_blocked(client, configured, mock_llm, content, expected_pattern):
@@ -57,7 +57,7 @@ async def test_block_persists_dlp_incident(client, configured, mock_llm, flush_b
     resp = await client.post(
         ENDPOINT,
         headers=auth_header(),
-        json={"messages": [{"role": "user", "content": "ssn 42101-1234567-1"}]},
+        json={"messages": [{"role": "user", "content": "ssn 123-45-6789"}]},
     )
     assert resp.status_code == 400
     await flush_background()
@@ -68,7 +68,7 @@ async def test_block_persists_dlp_incident(client, configured, mock_llm, flush_b
     assert incident.source == "user_input"
     assert incident.action == "block"
     assert incident.max_severity == "Critical"
-    assert "cnic" in incident.patterns
+    assert "us_ssn" in incident.patterns
     assert not hasattr(incident, "message")
     assert incident.message_len > 0
 

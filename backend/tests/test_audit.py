@@ -64,7 +64,7 @@ async def test_dlp_blocked_request_is_audited(client, gateway, mock_llm, flush_b
     await client.post(
         ENDPOINT,
         headers=auth_header(),
-        json={"messages": [{"role": "user", "content": "id 42101-1234567-1"}]},
+        json={"messages": [{"role": "user", "content": "ssn 123-45-6789"}]},
     )
     await flush_background()
 
